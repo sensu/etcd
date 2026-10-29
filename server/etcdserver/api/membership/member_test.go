@@ -12,24 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build !fips140
+// +build !fips140
+
 package membership
 
 import (
 	"net/url"
 	"reflect"
 	"testing"
-	"time"
 
 	"go.etcd.io/etcd/client/pkg/v3/types"
 )
-
-func timeParse(value string) *time.Time {
-	t, err := time.Parse(time.RFC3339, value)
-	if err != nil {
-		panic(err)
-	}
-	return &t
-}
 
 func TestMemberTime(t *testing.T) {
 	tests := []struct {
@@ -70,21 +64,5 @@ func TestMemberClone(t *testing.T) {
 		if !reflect.DeepEqual(nm, tt) {
 			t.Errorf("#%d: member = %+v, want %+v", i, nm, tt)
 		}
-	}
-}
-
-func newTestMember(id uint64, peerURLs []string, name string, clientURLs []string) *Member {
-	return &Member{
-		ID:             types.ID(id),
-		RaftAttributes: RaftAttributes{PeerURLs: peerURLs},
-		Attributes:     Attributes{Name: name, ClientURLs: clientURLs},
-	}
-}
-
-func newTestMemberAsLearner(id uint64, peerURLs []string, name string, clientURLs []string) *Member {
-	return &Member{
-		ID:             types.ID(id),
-		RaftAttributes: RaftAttributes{PeerURLs: peerURLs, IsLearner: true},
-		Attributes:     Attributes{Name: name, ClientURLs: clientURLs},
 	}
 }

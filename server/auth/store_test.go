@@ -16,7 +16,6 @@ package auth
 
 import (
 	"context"
-	"encoding/base64"
 	"errors"
 	"fmt"
 	"strings"
@@ -81,11 +80,6 @@ func TestNewAuthStoreBcryptCost(t *testing.T) {
 		defer as.Close()
 		require.Equalf(t, bcrypt.DefaultCost, as.BcryptCost(), "expected DefaultCost when bcryptcost is invalid")
 	}
-}
-
-func encodePassword(s string) string {
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(s), bcrypt.MinCost)
-	return base64.StdEncoding.EncodeToString(hashedPassword)
 }
 
 func setupAuthStore(t *testing.T) (store *authStore, teardownfunc func(t *testing.T)) {

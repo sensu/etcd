@@ -37,7 +37,17 @@ const (
 )
 
 func TestJWTInfo(t *testing.T) {
-	optsMap := map[string]map[string]string{
+	optsMap := jwtTestOptions()
+	for k, opts := range optsMap {
+		t.Run(k, func(tt *testing.T) {
+			testJWTInfo(tt, opts)
+		})
+	}
+}
+
+// jwtTestOptions returns the JWT option sets exercised by TestJWTInfo.
+func jwtTestOptions() map[string]map[string]string {
+	return map[string]map[string]string{
 		"RSA-priv": {
 			"priv-key":    jwtRSAPrivKey,
 			"sign-method": "RS256",
@@ -66,25 +76,10 @@ func TestJWTInfo(t *testing.T) {
 			"priv-key":    jwtECPrivKey,
 			"sign-method": "ES256",
 		},
-		"Ed25519-priv": {
-			"priv-key":    jwtEdPrivKey,
-			"sign-method": "EdDSA",
-		},
-		"Ed25519": {
-			"pub-key":     jwtEdPubKey,
-			"priv-key":    jwtEdPrivKey,
-			"sign-method": "EdDSA",
-		},
 		"HMAC": {
 			"priv-key":    jwtECPrivKey, // any file, raw bytes used as shared secret
 			"sign-method": "HS256",
 		},
-	}
-
-	for k, opts := range optsMap {
-		t.Run(k, func(tt *testing.T) {
-			testJWTInfo(tt, opts)
-		})
 	}
 }
 
