@@ -1,6 +1,6 @@
 module go.etcd.io/etcd/client/v3
 
-go 1.26.0
+go 1.27.0
 
 toolchain go1.27.4
 
@@ -13,7 +13,7 @@ require (
 	go.etcd.io/etcd/api/v3 v3.6.13
 	go.etcd.io/etcd/client/pkg/v3 v3.6.13
 	go.uber.org/zap v1.27.0
-	google.golang.org/grpc v1.83.2
+	google.golang.org/grpc v1.85.0
 	sigs.k8s.io/yaml v1.4.0
 )
 
@@ -36,9 +36,9 @@ require (
 	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.43.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260526163538-3dc84a4a5aaa // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260817212433-ac3dfec99bb1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260817212433-ac3dfec99bb1 // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 

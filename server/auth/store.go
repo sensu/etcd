@@ -185,6 +185,8 @@ type AuthStore interface {
 
 	// BcryptCost gets strength of hashing bcrypted auth password
 	BcryptCost() int
+	// HashPassword hashes a plaintext password for storage in the auth store.
+	HashPassword(password string) ([]byte, error)
 }
 
 type TokenProvider interface {
@@ -1224,6 +1226,10 @@ func (as *authStore) HasRole(user, role string) bool {
 
 func (as *authStore) BcryptCost() int {
 	return as.bcryptCost
+}
+
+func (as *authStore) HashPassword(password string) ([]byte, error) {
+	return bcrypt.GenerateFromPassword([]byte(password), as.bcryptCost)
 }
 
 func (as *authStore) setupMetricsReporter() {

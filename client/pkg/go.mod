@@ -1,6 +1,6 @@
 module go.etcd.io/etcd/client/pkg/v3
 
-go 1.26.0
+go 1.27.0
 
 toolchain go1.27.4
 
