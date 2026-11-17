@@ -625,7 +625,8 @@ func (c *RaftCluster) UpdateRaftAttributes(id types.ID, raftAttr RaftAttributes,
 	if c.v2store != nil {
 		if _, ok := c.members[id]; ok {
 			m := *(c.members[id])
-			m.RaftAttributes = raftAttr
+			// `MemberUpdateRequest` only supports updating PeerURLs.
+			m.RaftAttributes.PeerURLs = raftAttr.PeerURLs
 			mustUpdateMemberInStore(c.lg, c.v2store, &m)
 		} else {
 			c.lg.Info("Skipped updating non-existent member in v2store",
@@ -637,9 +638,12 @@ func (c *RaftCluster) UpdateRaftAttributes(id types.ID, raftAttr RaftAttributes,
 			)
 		}
 	}
-	if c.be != nil && shouldApplyV3 {
-		c.members[id].RaftAttributes = raftAttr
-		c.be.MustSaveMemberToBackend(c.members[id])
+	if m, ok := c.members[id]; ok {
+		// `MemberUpdateRequest` only supports updating PeerURLs.
+		m.RaftAttributes.PeerURLs = raftAttr.PeerURLs
+		if c.be != nil && shouldApplyV3 {
+			c.be.MustSaveMemberToBackend(m)
+		}
 
 		c.lg.Info(
 			"updated member",
