@@ -23,16 +23,21 @@ import (
 )
 
 func TestVersionCommandIncludesGitSHA(t *testing.T) {
-	output := new(bytes.Buffer)
+	stdout := new(bytes.Buffer)
+	stderr := new(bytes.Buffer)
 	cmd := NewVersionCommand()
-	cmd.SetOut(output)
+	cmd.SetOut(stdout)
+	cmd.SetErr(stderr)
 
 	if err := cmd.Execute(); err != nil {
 		t.Fatal(err)
 	}
 
-	want := fmt.Sprintf("etcdctl version: %s\nGit SHA: %s\nAPI version: %s\n", version.Version, version.GitSHA, version.APIVersion)
-	if got := output.String(); got != want {
-		t.Fatalf("version output mismatch:\ngot:  %q\nwant: %q", got, want)
+	want := fmt.Sprintf("etcdctl version: %s\nAPI version: %s\nGit SHA: %s\n", version.Version, version.APIVersion, version.GitSHA)
+	if got := stdout.String(); got != want {
+		t.Fatalf("stdout mismatch:\ngot:  %q\nwant: %q", got, want)
+	}
+	if got := stderr.String(); got != "" {
+		t.Fatalf("unexpected stderr: %q", got)
 	}
 }
