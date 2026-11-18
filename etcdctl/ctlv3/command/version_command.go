@@ -15,8 +15,6 @@
 package command
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	"go.etcd.io/etcd/api/v3/version"
@@ -32,6 +30,7 @@ func NewVersionCommand() *cobra.Command {
 }
 
 func versionCommandFunc(cmd *cobra.Command, args []string) {
-	fmt.Println("etcdctl version:", version.Version)
-	fmt.Println("API version:", version.APIVersion)
+	cmd.Println("etcdctl version:", version.Version)
+	cmd.Println("Git SHA:", version.GitSHA)
+	cmd.Println("API version:", version.APIVersion)
 }
