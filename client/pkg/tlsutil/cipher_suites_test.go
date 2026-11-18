@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build !fips140
+// +build !fips140
+
 package tlsutil
 
 import (
@@ -24,17 +27,6 @@ import (
 func TestGetCipherSuite_not_existing(t *testing.T) {
 	_, ok := GetCipherSuite("not_existing")
 	require.Falsef(t, ok, "Expected not ok")
-}
-
-func CipherSuiteExpectedToExist(tb testing.TB, cipher string, expectedID uint16) {
-	tb.Helper()
-	vid, ok := GetCipherSuite(cipher)
-	if !ok {
-		tb.Errorf("Expected %v cipher to exist", cipher)
-	}
-	if vid != expectedID {
-		tb.Errorf("For %v expected=%v found=%v", cipher, expectedID, vid)
-	}
 }
 
 func TestGetCipherSuite_success(t *testing.T) {
