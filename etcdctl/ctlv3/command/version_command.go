@@ -32,6 +32,8 @@ func NewVersionCommand() *cobra.Command {
 }
 
 func versionCommandFunc(cmd *cobra.Command, args []string) {
-	fmt.Println("etcdctl version:", version.Version)
-	fmt.Println("API version:", version.APIVersion)
+	out := cmd.OutOrStdout()
+	fmt.Fprintln(out, "etcdctl version:", version.Version)
+	fmt.Fprintln(out, "API version:", version.APIVersion)
+	fmt.Fprintln(out, "Git SHA:", version.GitSHA)
 }
